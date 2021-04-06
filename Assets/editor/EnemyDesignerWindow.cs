@@ -6,6 +6,7 @@ using Types;
 
 public class EnemyDesignerWindow : EditorWindow
 {
+    GUISkin skin;
     Texture2D headerSectionTexture;
     Texture2D mageSectionTexture; 
     Texture2D warriorSectionTexture; 
@@ -38,6 +39,7 @@ public class EnemyDesignerWindow : EditorWindow
     {
         InitTextures();
         InitData();
+        skin = Resources.Load<GUISkin>("guiStyles/enemyDesignerSkin");
     }
 
     public static void InitData()
@@ -67,7 +69,7 @@ public class EnemyDesignerWindow : EditorWindow
     void DrawHeader()
     {
         GUILayout.BeginArea(headerSection);
-        GUILayout.Label("Enemy designer");
+        GUILayout.Label("Enemy designer", skin.GetStyle("header1"));
         GUILayout.EndArea();
     }
     void DrawLayouts()
@@ -99,16 +101,16 @@ public class EnemyDesignerWindow : EditorWindow
     void DrawWarriorSettings()
     {
         GUILayout.BeginArea(warriorSection);
-        GUILayout.Label("Warrior");
+        GUILayout.Label("Warrior", skin.GetStyle("header1"));
         GUILayout.BeginHorizontal();
-        GUILayout.Label("Weapon");
+        GUILayout.Label("Weapon", skin.GetStyle("header1"));
         warriorData.wpnType = (WarriorWpnType)EditorGUILayout.EnumPopup(warriorData.wpnType);
         GUILayout.EndHorizontal();
         GUILayout.BeginHorizontal();
-        GUILayout.Label("Class");
+        GUILayout.Label("Class", skin.GetStyle("header1"));
         warriorData.classType = (WarriorClassType)EditorGUILayout.EnumPopup(warriorData.classType);
         GUILayout.EndHorizontal();
-        if (GUILayout.Button("Create"))
+        if (GUILayout.Button("Create", skin.GetStyle("header1")))
         {
             GeneralSettings.OpenWindow(GeneralSettings.SettingsType.WARRIOR);
         }
@@ -117,16 +119,16 @@ public class EnemyDesignerWindow : EditorWindow
     void DrawRogueSettings()
     {
         GUILayout.BeginArea(rogueSection);
-        GUILayout.Label("Rogue");
+        GUILayout.Label("Rogue", skin.GetStyle("header1"));
         GUILayout.BeginHorizontal();
-        GUILayout.Label("Strategy");
+        GUILayout.Label("Strategy", skin.GetStyle("header1"));
         rogueData.strategyType = (RogueStrategyType)EditorGUILayout.EnumPopup(rogueData.strategyType);
         GUILayout.EndHorizontal();
         GUILayout.BeginHorizontal();
-        GUILayout.Label("Weapon");
+        GUILayout.Label("Weapon", skin.GetStyle("header1"));
         rogueData.wpnType = (RogueWpnType)EditorGUILayout.EnumPopup(rogueData.wpnType);
         GUILayout.EndHorizontal();
-        if (GUILayout.Button("Create"))
+        if (GUILayout.Button("Create", skin.GetStyle("header1")))
         {
             GeneralSettings.OpenWindow(GeneralSettings.SettingsType.ROGUE);
         }
@@ -135,16 +137,16 @@ public class EnemyDesignerWindow : EditorWindow
     void DrawMageSettings()
     {
         GUILayout.BeginArea(mageSection);
-        GUILayout.Label("Mage");
+        GUILayout.Label("Mage", skin.GetStyle("header1"));
         GUILayout.BeginHorizontal();
-        GUILayout.Label("Damage");
+        GUILayout.Label("Damage", skin.GetStyle("header1"));
         mageData.dmgType = (MageDmgType)EditorGUILayout.EnumPopup(mageData.dmgType);
         GUILayout.EndHorizontal();
         GUILayout.BeginHorizontal();
-        GUILayout.Label("Weapon");
+        GUILayout.Label("Weapon", skin.GetStyle("header1"));
         mageData.wpnType = (MageWpnType)EditorGUILayout.EnumPopup(mageData.wpnType);
         GUILayout.EndHorizontal();
-        if (GUILayout.Button("Create" ))
+        if (GUILayout.Button("Create", skin.GetStyle("header1")))
             {
             GeneralSettings.OpenWindow(GeneralSettings.SettingsType.MAGE);
             }
@@ -153,6 +155,8 @@ public class EnemyDesignerWindow : EditorWindow
 }
 public class GeneralSettings : EditorWindow
 {
+    GUISkin skin;
+
     public enum SettingsType
     {
         MAGE,
@@ -161,13 +165,17 @@ public class GeneralSettings : EditorWindow
     }
     static SettingsType dataSetting;
     static GeneralSettings window;
-    
+    private void OnEnable()
+    {
+        skin = Resources.Load<GUISkin>("guiStyles/enemyDesignerSkin");
+    }
     public static void OpenWindow(SettingsType setting)
     {
         dataSetting = setting;
         window = (GeneralSettings)GetWindow(typeof(GeneralSettings));
         window.minSize = new Vector2(800, 400);
         window.Show();
+
     }
     private void OnGUI()
     {
@@ -188,28 +196,28 @@ public class GeneralSettings : EditorWindow
     {
 
         EditorGUILayout.BeginHorizontal();
-        GUILayout.Label("Prefab");
+        GUILayout.Label("Prefab", skin.GetStyle("header1"));
         charData.prefab = (GameObject)EditorGUILayout.ObjectField(charData.prefab,typeof(GameObject),false);
         EditorGUILayout.EndHorizontal();
 
         EditorGUILayout.BeginHorizontal();
-        GUILayout.Label("Max Health");       
+        GUILayout.Label("Max Health", skin.GetStyle("header1"));       
         charData.maxHealth = EditorGUILayout.FloatField(charData.maxHealth);
         EditorGUILayout.EndHorizontal();
         EditorGUILayout.BeginHorizontal();
-        GUILayout.Label("Max Energy");        
+        GUILayout.Label("Max Energy", skin.GetStyle("header1"));        
         charData.maxEnergy = EditorGUILayout.FloatField(charData.maxEnergy);
         EditorGUILayout.EndHorizontal();
         EditorGUILayout.BeginHorizontal();
-        GUILayout.Label("Power");
+        GUILayout.Label("Power", skin.GetStyle("header1"));
         charData.power = EditorGUILayout.Slider(charData.power, 0, 100);
         EditorGUILayout.EndHorizontal();
         EditorGUILayout.BeginHorizontal();
-        GUILayout.Label("Crit Chance %");
+        GUILayout.Label("Crit Chance %", skin.GetStyle("header1"));
         charData.critChance = EditorGUILayout.Slider(charData.critChance, 0, charData.power);
         EditorGUILayout.EndHorizontal();
         EditorGUILayout.BeginHorizontal();
-        GUILayout.Label("Name");
+        GUILayout.Label("Name", skin.GetStyle("header1"));
         charData.name = EditorGUILayout.TextField(charData.name);
         EditorGUILayout.EndHorizontal();
         if (charData.prefab == null)
@@ -221,7 +229,7 @@ public class GeneralSettings : EditorWindow
             EditorGUILayout.HelpBox("This enemy needs a valid [Name] before it can be created", MessageType.Warning);
         }
         else
-        if (GUILayout.Button("Finish and save"))
+        if (GUILayout.Button("Finish and save", skin.GetStyle("header1")))
         {
             SaveCharacterData();
             window.Close();
